@@ -1,0 +1,265 @@
+POSTGRESQL
+
+1.What is PostgreSQL?
+	PostgreSQL is an advanced, enterprise-class, and open-source relational database system. PostgreSQL supports 
+    both SQL (relational) and JSON (non-relational) querying.
+
+ 
+2. key features of PostgreSQL:
+	a. Relational Database Management System(RDBMS):
+		PostgreSQL follows relational model  i.e. organizing data into table with rows and columns allowing
+        or the establishment of relationships between tables based on keys.
+
+	b. ACID compliance:
+		PostgreSQL has the ACID property compliance (atomicity(ensures that a transaction is rolled back if 		
+        any part of it fails.), consistency, isolation and durability)
+
+	c. High performance:
+		PostgreSQL is known for its high performance, it handle large amounts of data and complex queries.
+
+	d. SQL compliance:
+		PostgreSQL is compliant with the SQL standard which ensure it is easy to use for developers and 			
+        analyst  familiar with SQL.
+
+	e. Concurrency control:
+		Postgres offers multi-version concurrency control (MVCC), which enables concurrent access to the same 		
+        data by several transactions without conflicts.
+
+	f. Data warehousing and business intelligence:
+		PostgreSQL is well suited for data warehousing and business intelligence tasks, it supports advance 		
+        analytics and data visualization.
+
+	g. Data types: 
+		PostgreSQL offers a rich set of built-in datatypes including numeric, text, date/time, JSON, XML, 		
+        arrays and user-defined types.
+
+
+		
+3. common use case of PostgreSQL:
+	a. Data warehousing and business intelligence:
+		PostgreSQL has powerful built-in support for advanced analytics and data warehousing, making it well-		
+        suited for use cases such as data mining, business intelligence, and reporting.
+
+	b. Content management and E-commerce:
+		The native JSON support and full-text search capabilities of Postgres make it well-suited for content 		
+        management and e-commerce applications
+
+	c. Geographic information systems (GIS)
+		Postgres includes built-in support for geographic data and spatial indexing, is well recognized as a 		
+        great choice for geographic information systems (GIS) and location-based services
+
+	d. Gaming and social media:
+		Postgres can handle high-traffic and high-concurrency which makes it well-suited for gaming and 		
+        social media applications.
+
+	e. Internet of things (IoT):
+		Postgres can handle large amounts of data and process complex queries make it well-suited for IoT 		
+        applications.
+
+
+
+4. Importance of PostgreSQL in Database:
+	a. Open Source and Community-Driven:
+		PostgreSQL is a free and open-source database, benefiting from a large and active community that 		
+        contributes to its development and maintenance.
+
+	b. ACID Compliance:
+		PostgreSQL is ACID-compliant, ensuring data consistency and reliability through features like 			
+        atomicity, consistency, isolation, and durability.
+
+	c. Scalability and Performance:
+		PostgreSQL can handle large datasets and complex queries efficiently, making it suitable for both 		
+        small and large applications. 
+
+	d. Extensive Feature Set:
+		It supports advanced SQL features, including stored procedures, triggers, user-defined functions, and 		
+        views. 
+
+	e. Data Integrity:
+		PostgreSQL provides robust mechanisms for data integrity, such as foreign keys, data types, and 		
+        constraints, ensuring accurate and consistent data. 
+
+	f. Data Security:
+		PostgreSQL offers strong security features, including role-based access control, encryption, and 		
+        connection security, protecting sensitive data. 
+
+	g. Reliability and Durability:
+		Its features, like write-ahead logging and Multi-Version Concurrency Control (MVCC), contribute to 		
+        high reliability and ensure data durability.
+
+	h. Wide Compatibility:
+		PostgreSQL is compatible with many programming languages and tools, including Python, Java,and 			
+        various database clients. 
+ 
+i. Data Warehousing and Analytics:
+		PostgreSQL is well-suited for data warehousing and business intelligence tasks due to 		
+        its advanced analytics capabilities.  
+j. High performance:
+		PostgreSQL is efficient in handling high read and write speeds
+
+
+
+5. What are the datatypes on PostgreSQL
+PostgreSQL Data Type:
+
+
+A. Numeric datatype (number):
+
+	1. integer: whole number, (Eg: weight int)	
+	2. bigInt: whole number but length is big, (Eg: population bigInt;)
+	3. double/number(PRECISION): with decimal   (Eg: last_price DOUBLE PRECISION DEFAULT 200.00;)
+	4. SMALLINT: small integer. range between  -32768 to +32767, (e.g.: age SAMLLINT;)
+	5. REAL/ OR PRECISION: floating point numbers (e.g.: discount real)
+
+B. String(character) datatype:
+
+	1. CHAR(n): fixed length string with  n character. (e.g. product_code CHAR(4)) 
+	2. VARCHAR(n): Variable length string with a max length of n.(e.g.. product_name VARCHAR(50))
+	3. TEXT: stores large amount of text upto 65535 character (e.g. product_review TEXT)
+
+C. Date and Time data type:
+
+	1. DATE: stores the date value in YYYY-MM-DD. (eg: manufacture_date DATE) 
+	2. TIME: stores the time value in HH:MM:SS.   (eg: class_first_period TIME)
+	3. TIMESTAMP: Stores both date and time value  (eg: enrollment_date DATETIME)
+	4. TIMESTAMPTZ: Time stamp with time zone support        (eg: event_starts TIMESTAMPIZ)
+
+D. Boolean Data Type:
+	1. BOOLEAN: represent true/false or 1/0. (eg: is_available BOOLEAN)
+
+E. UUID(universally unique identifier): a 128-bit number used to uniquely identified information. 
+	(eg: bank_customer_id UUID)[user_id UUID DEFAULT gen_random_uuid() PRIMARY KEY]
+
+F. JSON and XML: 
+	1. JSON: a flexible format for storing data as a JSON object. 
+	   (eg: customer_details JSON)
+		values('{"name" = "Sirish ko Phool","writter" = "Bishnu Kumari Waiba"}')
+	2. XML: store xml document
+	   (eg: bds_project XML)
+
+G. ARRAY and COMPOSITE Data Types:
+	1. ARRAY : stores multiple  values in single column (eg:book_details [])
+		values(
+		'Sirish ko Phool',
+		'Bishnu Kumari Waiba',
+		'Nepali'),
+	2. HSTORE : stores key values like NoSQL structure (eg:book_details HSTORE)
+		values(
+	    'Sirish ko Phool',
+	     "writter" => "Bishnu Kumari Waiba"
+	     "language" => "Nepali"),
+
+
+
+
+6. choosing right data types effect factors. 
+
+	a. Matching Data with Type:
+		Ensure the data type accurately reflects the nature of the data (e.g., using an integer for whole 		
+        numbers, a floating-point for decimals, or a string for text). 
+
+	b. Avoiding Data Loss:
+		Using the right data type prevents potential truncation of data or incorrect calculations that occur 		
+        when data is stored in an incompatible type.
+
+	c. Type Conversions:
+		Be aware of implicit and explicit type conversions, and their potential consequences, as these 			
+        conversions may alter the data. 
+
+	d. Storage Space:
+		Different data types take up varying amounts of memory, so choose types that are just large enough to 		
+        hold the data without unnecessary waste. 
+
+	e. Memory Utilization:
+		Using more complex data types, such as large object data types, consumes more memory and resources, 		
+        impacting overall performance. 
+
+	f. Handling Unexpected Data:
+		If your requirements evolve or unexpected data may be introduced, ensure that your chosen data types 		
+        are flexible enough to accommodate it. 
+
+	g. Database Integration:
+		Consider the types that are compatible with your specific database management system or other tools.
+
+
+
+7. PostgreSQL's statements:
+	a. SELECT statement: retrieving data
+		Syntax: SELECT * FROM table_name;
+		e.g.: SELECT * FROM products;
+ 
+	b. INSERT INTO statement: inserting data
+		Syntax: INSERT INTO table_name (col1, col2, ...) VALUES (val1,val2, ... ); 
+		e.g.: insert into products (product_name) where ('laptop');
+
+	c. UPDATE statement: updating data
+		Syntax: UPDATE table_name SET col2 = val2 WHERE condition;
+		e.g.: update products set peoduct_name = 'mouse' where product_id = 1;
+
+	d. DELETE statement: deleting data
+		Syntax: DELETE FROM table_name WHERE condition;
+		e.g.: delete from products where product_id = 1;
+
+	e. CREATE statement: creating table
+		Syntax: CREATE TABLE table_name (col1 Datatype, col2 Datatype, ...);
+		e.g.: create table products(
+			product_id  int  auto_increment primary key
+			product_name varchar(50) not null);
+
+	f. ALTER TABLE statement: modifying table structure
+		Syntax: ALTER TABLE table_name ADD col1 Datatype(n);
+		e.g.: alter table products add manufacture_date date;
+
+	g. DROP TABLE  statement: deleting a table
+		Syntax: DROP TABLE table_name;
+		e.g.: drop table products;
+
+	h. CREATE INDEX statement: creating index. The create index statement is used to create an index on table to
+		                    improve query performance
+		Syntax: CREATE INDEX index_name ON table_name(col1);
+		eg: create index serial_no on students(first_name);
+
+	i. TRUNCATE statement:  Delete all rows from a table without deleting the table structure itself.
+		Syntax: TURNCATE TABLE table_name;
+		eg: truncate table products;
+
+	j. GRANT statement: granting privilege allowing it to alter database objects like tables, views, functions,
+     	            and more.
+		syntax: GRANT privilege_list | ALL
+			ON  table_name
+			TO  role_name; 
+		eg:
+
+	k. REVOKE statement: removing privileges. (revokes previously granted privileges from one or more roles)
+		syntax: REVOKE privilege | ALL
+			ON TABLE table_name |  ALL TABLES IN SCHEMA schema_name
+			FROM role_name;
+		eg:
+
+	l. EXPLAIN statement: query plan (show the execution plan of a statement)
+		syntax:EXPLAIN [ ( option [, ...] ) ] statement
+		eg: 
+
+	m. VACUUM statement: reclaiming storage (scans tables for dead tuples, marks them as reusable, or removes 
+    				them entirely.)
+		syntax:VACUUM [ ( option [, ...] ) ] [ table_and_columns [, ...] ]
+		eg:
+
+	o  ROLLBACK statement:  undo changes made during a transaction.
+		Syntax: ROLLBACK;
+		e.g.: ROLLBACK;
+
+	p. COMMIT statement: commit (saves the changes made during a transaction)
+		Syntax: COMMIT; / COMMIT TRANSACCTION;
+		e.g.: commit
+
+
+
+
+
+
+
+
+
+
+

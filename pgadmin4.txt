@@ -1,0 +1,180 @@
+PGADMIN 4 
+1. CASTS: converts a value of one data type to another data type
+
+CREATE CAST(VARCHAR AS INTEGER)WITH FUNCTION my_custom_cast_function(VARCHAR) AS IMPLICT;
+// pre-defined cast table in pgadmin4.
+SELECT * FROM pg_cast;
+
+2. Catalogs: it is a system schema where RDMS stores schema metadata(ie. tables,columns)
+
+2.1. ASNI(Information Schema):
+	SELECT table_name, column_name,data_type FROM information_schema.columns WHERE table_schema = 'public';
+
+2.2. PostgeSQL catalog(pg_catalog):contains the system tables and all the built-in data types, functions, and 	operators
+	SELECT id,name,price FROM pg_catalog.pg_tables WHERE schemaname = 'public';
+
+4. Event Triggers: an event trigger in postgeSQL(pSQL) fires on DDL events(create, alter, drop) monitoring schemas
+ 	changes unlike regular triggers that work on insert, update or delete. 
+
+	// Create logging function
+	CREATE OR REPLACE FUNCTION log_schema_changes()
+	RETURNS event_trigger AS $$
+	BEGIN
+	RAISE NOTICE 'DDL Change Detected by: %', session_user;
+	END;
+	$$ LANGUAGE plpgsql;
+	
+	//creating event trigger:
+	CREATE EVENT TRIGGER ddl_logger ON ddl_command_end EXECUTE FUNCTION log_schema_changes();
+
+	//dropping an event trigger
+	DROP EVENT TRIGGER ddl_logger;
+
+5. Extensions: A postgeSQL extension adds extra functionality like indexing encryption or custom datatypes using the 		
+create extension command.
+
+		// searching plpgsql with the help of lanname on pg_language.
+		SELECT * FROM pg_language WHERE lanname = 'plpgsql';
+
+6. Foreign Data Wrappers: creates or modify a foreign data wrapper(an adapter between a Postgres database and 	data 	
+stored on another data source).
+	
+	//
+	SELECT c.id 
+	AS customer_id, 
+	c.name AS customer_name,
+	c.price AS customer_price, 
+	p.id AS product_id, 
+	p.name AS 	product_name, 
+	p.price AS product_price 
+	FROM customer c JOIN products p ON c.price = p.price;  
+
+7. Languages: organizes the registration of a procedural language.
+	SELECT * FROM pg_language;
+
+8. publications: creates a publication(a set of changes generated from a table or schema or their group).
+	creating publication
+	CREATE PUBLICATION my_publication FOR TABLE products, customer;
+	selection from publication
+	SELECT * FROM pg_publication_tables WHERE pubname = 'my_publication';
+
+9. Schemas: defines schema(organizational workhorse of a database, similar to directories or namespaces.)
+		(logical container)
+
+10. Aggregates: compute a single result from a set of input values(calculation on multiple rows and returns a 
+		single result)
+ 
+11. collations: defines collation(SQL schema object that maps a SQL name to operating system locales) 
+		A collation in postgeSQL defines how text  is sorted and compared on  the based on language
+		and local rules.
+
+12. Domains: A domain in PostgreSQL is a custom data type that is based on an existing data type but with constraints
+ 		(like CHECK, NOT NULL, or DEFAULT).
+
+	Why Use a Domain
+	1. Reusability – Define validation rules once, use across multiple tables.
+	2. Consistency – Ensures all columns follow the same rules.
+	3. Readability – Makes database design clearer.
+
+	// creating domain
+	CREATE DOMAIN email_domain AS TEXT 
+	CHECK (VALUE ~ '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+	//
+	CREATE TABLE users (
+    	id SERIAL PRIMARY KEY,
+    	email email_domain UNIQUE
+	);
+
+
+13. FTS Configuration:FTS (Full-Text Search) in PostgreSQL enables efficient searching within text data.
+ 	Configurations define how text is processed, tokenized, and searched.
+ 
+	// selecting text with the help of configuration
+	SELECT * FROM pg_ts_config WHERE cfgname = 'nepali';
+
+14. FTS Dictionaries: processing rule that defines how words (tokens) are handled in Full-Text Search (FTS). 
+	// selecting 
+	SELECT dictname FROM pg_ts_dict;
+
+15. FTS Parsers: responsible for splitting text into tokens (words, numbers, email addresses, etc.) before processing
+ 		it with dictionaries.
+	SELECT * FROM ts_token_type('default');
+
+16. FTS Templates: creates a new text search template. A text search template defines the functions that implement
+ 	text search dictionaries.
+
+	SELECT tmplname FROM pg_ts_template;
+
+17. Foreign Tables: defines the  structure of an external data source that resides on a foreign
+ 			server. 
+	SELECT * FROM remote_customers;
+
+18. Functions:  is used to define and manage PostgreSQL functions, allowing you to set parameters,
+ 		return types, code, security, and other options related to the function's creation and 	behavior.(reuseable 
+		block of SQL or Procedural code that performs a specific task.) 
+
+
+	CREATE FUNCTION get_customers()  
+	RETURNS TABLE(id INT, name TEXT) AS $$  
+	BEGIN  
+	    RETURN QUERY SELECT id, name FROM customer;  
+	END;  
+	$$ LANGUAGE plpgsql;
+
+SELECT * FROM get_customers();
+
+19. Materialized views: it is a stored or cached view that contains the result set of a query. Use the
+ 		REFRESH MATERIALIZED VIEW command to update the content of a materialized view.
+
+
+20. Operators: defines the behavior of an exclusion constraint, ensuring that if  two rows are
+			compared on a specified column or expression, at least one operator comparison returns false or null. 
+
+	SELECT 10 > 5 AS is_greater, 10 = 5 AS is_equal, 10 != 5 AS not_equal; 
+
+21. Procedures: A procedure in PostgreSQL is a reusable block of PL/pgSQL code that executes multiple SQL statements.
+ 		Unlike functions, procedures can perform transactions using COMMIT and ROLLBACK.
+
+	DROP PROCEDURE insert_customers;
+
+22. Sequences: A sequence in PostgreSQL is a special object used to generate unique numeric values, often for auto-
+		incrementing primary keys.
+
+	CREATE SEQUENCE customer_seq  
+	START WITH 1  
+	INCREMENT BY 1  
+	MINVALUE 1  
+	NO MAXVALUE  
+	CACHE 1;
+
+	CREATE TABLE students (
+	    id INT DEFAULT nextval('customer_seq') PRIMARY KEY,
+	    name TEXT
+	);
+
+	SELECT nextval('customer_seq');
+
+
+23. Tables: structured collection of rows and columns that stores data in a relational format.
+
+ 	CREATE TABLE students(
+	id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL	
+	);
+ 
+
+24. Trigger Functions: create or manage a trigger_function. A trigger function defines the action that 
+			will be invoked when a trigger fires.(special function that automatically executes when a specified event
+			 	occurs on a table, such as INSERT, UPDATE, or DELETE.)
+
+25. Types:  it is use to register a custom data type.
+
+26. Views: it is used to define and manage PostgreSQL views, allowing you to create virtual tables based on SELECT 	queries.
+
+27. Subscriptions: A **subscription** in PostgreSQL enables real-time data sync from a **publisher** database using
+ 		logical replication
+
+
+
+
